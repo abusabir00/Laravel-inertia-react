@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Business;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
+use Inertia\Response;
 
-class BussnessController extends Controller
+class BusinessController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +19,7 @@ class BussnessController extends Controller
         //
         // get all business with pagination
         $businesses = Business::latest()->paginate(5);
-        return inneria::render('Business/Index', ['businesses' => $businesses]);
+        return Inertia::render('Business/Index', ['businesses' => $businesses]);
     }
 
     /**
