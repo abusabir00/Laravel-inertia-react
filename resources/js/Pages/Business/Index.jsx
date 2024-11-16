@@ -1,12 +1,32 @@
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { TrashIcon, PencilIcon, EyeIcon, MagnifyingGlassCircleIcon } from '@heroicons/react/16/solid';
 import TextInput  from '@/Components/TextInput';
+import Pagination from '@/Components/Pagination';
+import SelectInput from '@/Components/SelectInput';
+import { BUSINESS_STATUS_TEXT_MAP, BUSINESS_STATUS_COLOR_MAP } from '@/Lib/Constants';
 
 
-export default function Index({businesses}) {
+export default function Index({businesses, queryParam = {}}) {
     console.log(businesses);
+
+    // search business
+    const searchBusiness = (name, value) => {
+        console.log(name, value);
+        if (value) {
+            queryParam[name] = value;
+        }else{
+            delete queryParam[name];
+        }
+        router.get(route('businesses.index'), queryParam);
+    };
+
+    const onKeyPress = (e) => {
+        if (e.key !== 'Enter') return;
+        searchBusiness('name', e.target.value);
+    }
+
     return (
         <AuthenticatedLayout
         header={
@@ -15,7 +35,7 @@ export default function Index({businesses}) {
             </h2>
         }
     >
-        <Head title="Dashboard" />
+        <Head title="Business List" />
 
         <div className="py-12">
             <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -31,10 +51,21 @@ export default function Index({businesses}) {
                                     <div className="flex bg-gray-50 items-center p-2 rounded-md">
 
                                         <MagnifyingGlassCircleIcon className="h-5 w-5 text-gray-500" />
-                                        <TextInput placeholder="Search..." className="ml-2" />
-                                </div>
+                                        <TextInput placeholder="Search..." className="ml-2" 
+                                            onBlur={ e => searchBusiness('name', e.target.value)}
+                                            onKeyPress={ e => searchBusiness('name', e)}
+                                        />
+                                    </div>
+                                    <div className="flex bg-gray-50 items-center p-2 rounded-md">
+                                        <SelectInput className="ml-2" onChange={e => searchBusiness('status', e.target.value)}> 
+                                            <option value="">Status</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                            <option value="pending">Pending</option>
+                                        </SelectInput>
+                                    </div>
                                         <div className="lg:ml-40 ml-10 space-x-8">
-                                            <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">New Report</button>
+                                            {/* <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">New Report</button> */}
                                             <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">Create</button>
                                         </div>
                                     </div>
@@ -76,81 +107,77 @@ export default function Index({businesses}) {
                                             </thead>
                                             <tbody>
                                                 {businesses.data.map((business) => (
-                                                    <tr>
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <div className="flex items-center">
-                                                                <div className="flex-shrink-0 w-10 h-10">
-                                                                    <img className="w-full h-full rounded-full"
-                                                                        src="{business.image}"
-                                                                        alt="" />
+                                                <tr key={business.id}>
+                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <div className="flex items-center">
+                                                            <div className="flex-shrink-0 w-10 h-10">
+                                                                <img className="w-full h-full rounded-full"
+                                                                    src="{business.image}"
+                                                                    alt="" />
+                                                            </div>
+                                                                <div className="ml-3">
+                                                                    <p className="text-gray-900 whitespace-no-wrap">
+                                                                        {business.name}
+                                                                    </p>
                                                                 </div>
-                                                                    <div className="ml-3">
-                                                                        <p className="text-gray-900 whitespace-no-wrap">
-                                                                            {business.name}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                        </td>
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <p className="text-gray-900 whitespace-no-wrap">{business.phone}</p>
-                                                        </td>
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <p className="text-gray-900 whitespace-no-wrap">
+                                                            </div>
+                                                    </td>
+                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <p className="text-gray-900 whitespace-no-wrap">{business.phone}</p>
+                                                    </td>
+                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <span
+                                                            className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                            <span aria-hidden
+                                                                className="absolute inset-0 bg-green-500 opacity-50 rounded-full"></span>
                                                                 <Link href={business.bussness_link} _target="_blank" >Business Link </Link>
-                                                            </p>
-                                                        </td>
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <p className="text-gray-900 whitespace-no-wrap">
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <span
+                                                            className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                            <span aria-hidden
+                                                                className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
                                                                 {business.max_reviews}
-                                                            </p>
-                                                        </td>
+                                                        </span>
+                                                    </td>
 
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <span
-                                                                className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                                                <span aria-hidden
-                                                                    className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                                                    {business.reviewed_count}
-                                                            </span>
-                                                        </td>
+                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <span
+                                                            className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                            <span aria-hidden
+                                                                className="absolute inset-0 bg-red-500 opacity-50 rounded-full"></span>
+                                                                {business.reviewed_count}
+                                                        </span>
+                                                    </td>
 
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <span
-                                                                className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                                                <span aria-hidden
-                                                                    className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                                            <span className="relative">{business.status}</span>
-                                                            </span>
-                                                        </td>
+                                                    <td className="px-5 py-5 border-b border-gray-200 ${} text-sm">
+                                                        <span className={`relative inline-block px-3 py-1 font-semibold leading-tight ${BUSINESS_STATUS_COLOR_MAP[business.status]}`}>
+                                                            {BUSINESS_STATUS_TEXT_MAP[business.status]}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <div className="flex items-center space-x-4">
+                                                            <Link href={route('businesses.show', business.id)}>
+                                                                <EyeIcon className="h-5 w-5 text-gray-500" />
+                                                            </Link>
+                                                            <Link href={route('businesses.edit', business.id)}>
+                                                                <PencilIcon className="h-5 w-5 text-gray-500" />
+                                                            </Link>
+                                                            <Link href={route('businesses.destroy', business.id)}>
+                                                                <TrashIcon className="h-5 w-5 text-gray-500" />
+                                                            </Link>
+                                                        </div>
+                                                    </td>
 
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm flex">
-                                                            <EyeIcon className="h-5 w-5 text-indigo-500" />
-                                                            <PencilIcon className="h-5 w-5 text-green-500" />
-                                                            <TrashIcon className="h-5 w-5 text-red-500" />
-                                                        </td>
 
-
-                                                    </tr>
+                                                </tr>
                                                 ))}
                                             </tbody>
                                         </table>
-                                        <div
-                                            className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-                                            <span className="text-xs xs:text-sm text-gray-900">
-                                                Showing 1 to 4 of 50 Entries
-                                            </span>
-                                            <div className="inline-flex mt-2 xs:mt-0">
-                                                <button
-                                                    className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
-                                                    Prev
-                                                </button>
-                                                &nbsp; &nbsp;
-                                                <button
-                                                    className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
-                                                    Next
-                                                </button>
-                                            </div>
-                                        </div>
+
+                                        <Pagination meta={businesses.meta} />
+
                                     </div>
                                 </div>
                             </div>

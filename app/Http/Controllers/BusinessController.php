@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+//use resources
+use App\Http\Resources\BusinessResource;
 
 class BusinessController extends Controller
 {
@@ -19,6 +21,7 @@ class BusinessController extends Controller
         //
         // get all business with pagination
         $businesses = Business::latest()->paginate(5);
+        $businesses = BusinessResource::collection($businesses);
         return Inertia::render('Business/Index', ['businesses' => $businesses]);
     }
 
