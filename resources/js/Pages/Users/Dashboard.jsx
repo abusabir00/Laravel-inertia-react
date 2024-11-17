@@ -17,10 +17,10 @@ export default function Dashboard() {
                         Dashboard
                     </NavLink>
                     <NavLink href={route('users.index')} active={route().current('users.*')}>
-                        Users
+                        Referral User
                     </NavLink>
                     <NavLink href={route('businesses.index')} active={route().current('businesses.*')}>
-                        Businesses
+                        Reviews
                     </NavLink>
                 </>
             }
@@ -36,7 +36,7 @@ export default function Dashboard() {
                                 <div className="p-4 transition-shadow border rounded-lg shadow-sm hover:shadow-lg">
                                     <div className="flex items-start justify-between">
                                     <div className="flex flex-col space-y-2">
-                                        <span className="text-gray-400">Total Users</span>
+                                        <span className="text-gray-400">Total Users Dashboard</span>
                                         <span className="text-lg font-semibold">20</span>
                                     </div>
                                     <div className="p-10 bg-gray-200 rounded-md">

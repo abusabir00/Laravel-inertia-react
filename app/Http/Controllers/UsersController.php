@@ -10,7 +10,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Http\Resources\BusinessResource;
 
-class BusinessController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +18,10 @@ class BusinessController extends Controller
     public function index()
     {
         //
-        // get all business with pagination
-        $businesses = Business::latest()->paginate(5);
-        $businesses = BusinessResource::collection($businesses);
-        return Inertia::render('Business/Index', ['businesses' => $businesses]);
+         // get all business with pagination
+         $businesses = Business::latest()->paginate(5);
+         $businesses = BusinessResource::collection($businesses);
+         return Inertia::render('Users/Index', ['businesses' => $businesses]);
     }
 
     /**
