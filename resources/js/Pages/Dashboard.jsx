@@ -2,29 +2,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import {UserCircleIcon } from '@heroicons/react/16/solid';
 import NavLink from '@/Components/NavLink';
+import AdminLayout from '@/Layouts/AdminLayout';
 
 export default function Dashboard() {
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Dashboard
-                </h2>
-            }
-            menu={
-                <>
-                    <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                        Dashboard
-                    </NavLink>
-                    <NavLink href={route('users.index')} active={route().current('users.*')}>
-                        Users
-                    </NavLink>
-                    <NavLink href={route('businesses.index')} active={route().current('businesses.*')}>
-                        Businesses
-                    </NavLink>
-                </>
-            }
-        >
+        <AdminLayout headerName={'Admin Dashboard'}>
+
             <Head title="Dashboard" />
 
             <div className="py-12">
@@ -53,6 +36,7 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+
+        </AdminLayout>
     );
 }
