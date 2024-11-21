@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Http\Resources\BusinessResource;
+use App\Models\User;
 
 class UsersController extends Controller
 {
@@ -18,10 +19,11 @@ class UsersController extends Controller
     public function index()
     {
         //
-         // get all business with pagination
-         $businesses = Business::latest()->paginate(5);
-         $businesses = BusinessResource::collection($businesses);
-         return Inertia::render('Users/Index', ['businesses' => $businesses]);
+         // get all user with paginate
+            $users = User::paginate(10);
+            return Inertia::render('Users/Index', [
+                'users' => $users
+            ]);
     }
 
     /**
