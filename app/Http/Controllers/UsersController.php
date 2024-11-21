@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Http\Resources\BusinessResource;
+use App\Http\Resources\UsersResource;
 use App\Models\User;
 
 class UsersController extends Controller
@@ -20,7 +21,12 @@ class UsersController extends Controller
     {
         //
          // get all user with paginate
-            $users = User::paginate(10);
+            $users = User::latest()->paginate(5);
+            //map the users
+
+            
+
+            $users = UsersResource::collection($users);
             return Inertia::render('Users/Index', [
                 'users' => $users
             ]);

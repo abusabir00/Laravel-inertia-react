@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -20,6 +21,7 @@ Route::get('/', function () {
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('register/{code}', [RegisteredUserController::class, 'store'])->name('users.referral');
 
  Route::middleware('auth')->group(function () {
      Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

@@ -13,7 +13,7 @@ export default function Index({users, queryParam = {}}) {
     console.log(users);
 
     // search business
-    const searchBusiness = (name, value) => {
+    const searchUsers = (name, value) => {
         console.log(name, value);
         if (value) {
             queryParam[name] = value;
@@ -25,7 +25,7 @@ export default function Index({users, queryParam = {}}) {
 
     const onKeyPress = (e) => {
         if (e.key !== 'Enter') return;
-        searchBusiness('name', e.target.value);
+        searchUsers('name', e.target.value);
     }
 
     return (
@@ -47,12 +47,12 @@ export default function Index({users, queryParam = {}}) {
 
                                         <MagnifyingGlassCircleIcon className="w-5 h-5 text-gray-500" />
                                         <TextInput placeholder="Search..." className="ml-2" 
-                                            onBlur={ e => searchBusiness('name', e.target.value)}
-                                            onKeyPress={ e => searchBusiness('name', e)}
+                                            onBlur={ e => searchUsers('name', e.target.value)}
+                                            onKeyPress={ e => searchUsers('name', e)}
                                         />
                                     </div>
                                     <div className="flex items-center p-2 rounded-md bg-gray-50">
-                                        <SelectInput className="ml-2" onChange={e => searchBusiness('status', e.target.value)}> 
+                                        <SelectInput className="ml-2" onChange={e => searchUsers('status', e.target.value)}> 
                                             <option value="">Status</option>
                                             <option value="active">Active</option>
                                             <option value="inactive">Inactive</option>
@@ -73,7 +73,7 @@ export default function Index({users, queryParam = {}}) {
                                                 <tr>
                                                     <th
                                                         className="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                                                        Name
+                                                        Full Name
                                                     </th>
                                                     <th
                                                         className="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
@@ -81,18 +81,21 @@ export default function Index({users, queryParam = {}}) {
                                                     </th>
                                                     <th
                                                         className="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                                                        Business Link
+                                                        Email
                                                     </th>
                                                     <th
                                                         className="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                                                        Maximum Review
+                                                        Join Date
                                                     </th>
                                                     <th
                                                         className="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                                                        Total Review
+                                                        Subscription To
                                                     </th>
                                                     <th
                                                         className="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                                                        Referral Link
+                                                    </th>
+                                                    <th className="px-5 py-3 bg-gray-100 border-b-2 border-gray-200">
                                                         Status
                                                     </th>
                                                     <th className="px-5 py-3 bg-gray-100 border-b-2 border-gray-200">
@@ -112,7 +115,7 @@ export default function Index({users, queryParam = {}}) {
                                                             </div>
                                                                 <div className="ml-3">
                                                                     <p className="text-gray-900 whitespace-no-wrap">
-                                                                        {user.name}
+                                                                        {user.name} {user.lastname}
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -120,32 +123,25 @@ export default function Index({users, queryParam = {}}) {
                                                     <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                                         <p className="text-gray-900 whitespace-no-wrap">{user.phone}</p>
                                                     </td>
-                                                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                                        <span
-                                                            className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-                                                            <span aria-hidden
-                                                                className="absolute inset-0 bg-green-500 rounded-full opacity-50"></span>
-                                                                <Link href={user.bussness_link} _target="_blank" >Business Link </Link>
-                                                        </span>
-                                                    </td>
+                                                   
                                                     <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                                         <span
                                                             className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
                                                             <span aria-hidden
                                                                 className="absolute inset-0 bg-green-200 rounded-full opacity-50"></span>
-                                                                {user.max_reviews}
+                                                                {user.email}
                                                         </span>
                                                     </td>
 
                                                     <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                                        <span
-                                                            className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-                                                            <span aria-hidden
-                                                                className="absolute inset-0 bg-red-500 rounded-full opacity-50"></span>
-                                                                {user.reviewed_count}
-                                                        </span>
+                                                        {user.created_at}
                                                     </td>
-
+                                                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                                        {user.subscribed_end_at}
+                                                    </td>
+                                                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                                        <Link href={ user.referral_code}> Link </Link>
+                                                    </td>
                                                     <td className="px-5 py-5 border-b border-gray-200 ${} text-sm">
                                                         <span className={`relative inline-block px-3 py-1 font-semibold leading-tight ${BUSINESS_STATUS_COLOR_MAP[user.status]}`}>
                                                             {BUSINESS_STATUS_TEXT_MAP[user.status]}

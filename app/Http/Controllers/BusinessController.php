@@ -19,7 +19,7 @@ class BusinessController extends Controller
     {
         //
         // get all business with pagination
-        $businesses = Business::latest()->paginate(5);
+        $businesses = Business::latest()->paginate(10);
         $businesses = BusinessResource::collection($businesses);
         return Inertia::render('Business/Index', ['businesses' => $businesses]);
     }

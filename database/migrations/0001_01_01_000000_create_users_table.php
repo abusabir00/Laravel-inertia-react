@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('referral_code')->unique();
             $table->string('type')->default('user')->comment('user, admin');
             $table->string('password');
+            $table->enum('status', ['active', 'inactive', 'pending'])->default('active');
             $table->rememberToken();
             $table->timestamps();
         });
