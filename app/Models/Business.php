@@ -9,4 +9,16 @@ class Business extends Model
 {
     /** @use HasFactory<\Database\Factories\BusinessFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'image',
+        'bussness_link',
+        'address',
+        'phone',
+        'max_reviews',
+        'description',
+        'created_by',
+        'updated_by',
+    ];
 }

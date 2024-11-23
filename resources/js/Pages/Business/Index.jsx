@@ -9,9 +9,8 @@ import { BUSINESS_STATUS_TEXT_MAP, BUSINESS_STATUS_COLOR_MAP } from '@/Lib/Const
 import AdminLayout from '../../Layouts/AdminLayout';
 
 
-export default function Index({businesses, queryParam = {}}) {
-    console.log(businesses);
-
+export default function Index({businesses, queryParam = {}, success= '', error = ''}) {
+    console.log(success, error);
     // search business
     const searchBusiness = (name, value) => {
         console.log(name, value);
@@ -29,7 +28,7 @@ export default function Index({businesses, queryParam = {}}) {
     }
 
     return (
-        <AdminLayout headerName={'Business List'}>
+        <AdminLayout headerName={'Business List'} successMessage={success} errorMessage={error}>
             <Head title="Business List" />
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -60,7 +59,9 @@ export default function Index({businesses, queryParam = {}}) {
                                         </div>
                                             <div className="ml-10 space-x-8 lg:ml-40">
                                                 {/* <button className="px-4 py-2 font-semibold tracking-wide text-white bg-indigo-600 rounded-md cursor-pointer">New Report</button> */}
-                                                <button className="px-4 py-2 font-semibold tracking-wide text-white bg-indigo-600 rounded-md cursor-pointer">Create</button>
+                                                <Link href={route('businesses.create')} className="px-4 py-2 font-semibold tracking-wide text-white bg-indigo-600 rounded-md cursor-pointer">
+                                                    New Business
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +107,7 @@ export default function Index({businesses, queryParam = {}}) {
                                                             <div className="flex items-center">
                                                                 <div className="flex-shrink-0 w-10 h-10">
                                                                     <img className="w-full h-full rounded-full"
-                                                                        src="{business.image}"
+                                                                        src={business.image}
                                                                         alt="" />
                                                                 </div>
                                                                     <div className="ml-3">

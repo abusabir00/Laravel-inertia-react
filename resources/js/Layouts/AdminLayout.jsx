@@ -1,12 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import NavLink from '@/Components/NavLink';
 
-export default function UserNavbar({ headerName, children }) {
-    return (
-        <AuthenticatedLayout
+export default function UserNavbar({ headerName, children, successMessage, errorMessage }) {
+        return (
+            <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Dashboard
+                    { headerName }
                 </h2>
             }
             menu={
@@ -22,6 +22,8 @@ export default function UserNavbar({ headerName, children }) {
                     </NavLink>
                 </>
             }
+            successMessage={successMessage}
+            errorMessage={errorMessage}
         >
             {children}
             

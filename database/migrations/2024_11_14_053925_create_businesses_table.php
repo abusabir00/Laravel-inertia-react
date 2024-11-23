@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('reviewed_count')->default(0);
             $table->string('bussness_link');
             $table->string('image')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->enum('status', ['active', 'inactive', 'pending'])->default('active');
