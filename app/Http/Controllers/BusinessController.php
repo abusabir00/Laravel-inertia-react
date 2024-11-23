@@ -35,11 +35,8 @@ class BusinessController extends Controller
      */
     public function create()
     {
-        //
-        $businesses = Business::latest()->paginate(10);
-        $businesses = BusinessResource::collection($businesses);
-        return Inertia::render('Business/Form', ['businesses' => $businesses]);
-        //return to_route('businesses.index')->with('error', 'Business created successfully');
+        //return view('business.create');
+        return Inertia::render('Business/Form');
     }
 
     /**
@@ -61,7 +58,7 @@ class BusinessController extends Controller
         $result = Business::create($data);
 
         return to_route('businesses.index')->with('success', 'Business created successfully');
-        
+
         } catch (\Exception $e) {
             return Redirect::back()->with('error', $e->getMessage());
         }
@@ -81,6 +78,8 @@ class BusinessController extends Controller
     public function edit(string $id)
     {
         //
+        $business = Business::findOrFail($id);
+        return Inertia::render('Business/Form', ['business' => $business]);
     }
 
     /**

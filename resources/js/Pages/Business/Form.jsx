@@ -12,26 +12,26 @@ import InputError from '@/Components/InputError';
 import TextAreaInput from '@/Components/TextAreaInput';
 
 
-export default function Create({Auth}) {
+export default function Create({Auth, business=null}) {
 
     const { data, setData, post, errors, reset } = useForm({
-        name: "",
-        image: "",
-        bussness_link: "",
-        address: "",
-        phone: "",
-        max_reviews: "",
-        description: "",
+        id: business ? business.id : null,
+        name: business ? business.name : "",
+        image: business ? business.image : "",
+        bussness_link: business ? business.bussness_link : "",
+        address: business ? business.address : "",
+        phone: business ? business.phone : "",
+        max_reviews: business ? business.max_reviews : "",
+        description: business ? business.description : "",
       });
-    
+    console.log(data);
       const onSubmit = (e) => {
         e.preventDefault();
         post(route("businesses.store"));
       };
 
     return (
-        <AdminLayout headerName={'Business List'}>
-            <Head title="Business List" />
+        <AdminLayout headerName={ data.id ? 'Business Update' : 'Business Create'}>
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
@@ -43,7 +43,9 @@ export default function Create({Auth}) {
                                                 <div className="space-y-12">
 
                                                     <div className="pb-12 border-b border-gray-900/10">
-                                                    <h2 className="font-semibold text-gray-900 text-base/7">New Business Information</h2>
+                                                    <h2 className="font-semibold text-gray-900 text-base/7">
+                                                        {data.id ? data.name + ' Information' : 'New Business Information'}
+                                                    </h2>
 
                                                     <div className="grid grid-cols-1 mt-10 gap-x-6 gap-y-8 sm:grid-cols-6">
                                                         <div className="sm:col-span-3">
@@ -55,6 +57,7 @@ export default function Create({Auth}) {
                                                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                                                                     autoComplete="name"
                                                                     onChange={(e) => setData("name", e.target.value)}
+                                                                    value={data.name}
                                                                 />
                                                                 <InputError message={errors.name} className="mt-2" />
                                                             </div>
@@ -84,6 +87,7 @@ export default function Create({Auth}) {
                                                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                                                                     autoComplete="bussness_link"
                                                                     onChange={(e) => setData("bussness_link", e.target.value)}
+                                                                    value={data.bussness_link}
                                                                 />
                                                                 <InputError message={errors.bussness_link} className="mt-2" />
                                                             </div>
@@ -98,6 +102,7 @@ export default function Create({Auth}) {
                                                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                                                                     autoComplete="address"
                                                                     onChange={(e) => setData("address", e.target.value)}
+                                                                    value={data.address}
                                                                 />
                                                                 <InputError message={errors.address} className="mt-2" />
                                                             </div>
@@ -112,6 +117,7 @@ export default function Create({Auth}) {
                                                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                                                                     autoComplete="phone"
                                                                     onChange={(e) => setData("phone", e.target.value)}
+                                                                    value={data.phone}
                                                                 />
                                                                 <InputError message={errors.phone} className="mt-2" />
                                                             </div>    
@@ -126,6 +132,7 @@ export default function Create({Auth}) {
                                                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                                                                     autoComplete="max_reviews"
                                                                     onChange={(e) => setData("max_reviews", e.target.value)}
+                                                                    value={data.max_reviews}
                                                                 />
                                                                 <InputError message={errors.max_reviews} className="mt-2" />
                                                             </div>    
@@ -139,7 +146,11 @@ export default function Create({Auth}) {
                                                                     name="description"
                                                                     className="block w-full mt-1"
                                                                     onChange={(e) => setData("description", e.target.value)}
-                                                                />
+                                                                >
+                                                                    
+                                                                    {data.description}
+
+                                                                </TextAreaInput>
                                                                 <InputError message={errors.description} className="mt-2" />
                                                             </div>    
                                                         </div>
@@ -159,7 +170,7 @@ export default function Create({Auth}) {
                                                     type="submit"
                                                     className="px-3 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                                     >
-                                                    Save
+                                                    {data.id ? 'Update' : 'Create'}
                                                     </button>
                                                 </div>
                                             </form>

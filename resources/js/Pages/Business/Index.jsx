@@ -10,7 +10,6 @@ import AdminLayout from '../../Layouts/AdminLayout';
 
 
 export default function Index({businesses, queryParam = {}, success= '', error = ''}) {
-    console.log(success, error);
     // search business
     const searchBusiness = (name, value) => {
         console.log(name, value);
