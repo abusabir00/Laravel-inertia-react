@@ -85,9 +85,28 @@ class BusinessController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(BusinessCreateRequest $request, Business $business)
     {
-        //
+        try {
+            $data = $request->validated();
+            $image = $data['image'] ?? null;
+            $data['updated_by'] = Auth::id();
+            if ($image) {
+                if ($business->image) {
+                    Storage::disk('public')->delete($business->image);
+                }
+                $data['image'] = $image->store('Business/' . Str::random(), 'public');
+            }else{
+                unset($data['image']);
+            }
+            \dd($data);
+            $business->update($data);
+
+            return to_route('businesses.index')
+                ->with('success', "Business \"$business->name\" was updated");
+        } catch (\Exception $e) {
+            return Redirect::back()->with('error', $e->getMessage());
+        }
     }
 
     /**

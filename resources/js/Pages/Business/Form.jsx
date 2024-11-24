@@ -14,24 +14,27 @@ import TextAreaInput from '@/Components/TextAreaInput';
 
 export default function Create({Auth, business=null}) {
 
-    const { data, setData, post, errors, reset } = useForm({
+    const { data, setData, post, put, errors, reset } = useForm({
         id: business ? business.id : null,
         name: business ? business.name : "",
-        image: business ? business.image : "",
+        image: "",
         bussness_link: business ? business.bussness_link : "",
         address: business ? business.address : "",
         phone: business ? business.phone : "",
         max_reviews: business ? business.max_reviews : "",
         description: business ? business.description : "",
       });
-    console.log(data);
       const onSubmit = (e) => {
         e.preventDefault();
+        console.log(data);
+        data.id ? put(route("businesses.update", data.id)) : 
         post(route("businesses.store"));
+
       };
 
     return (
         <AdminLayout headerName={ data.id ? 'Business Update' : 'Business Create'}>
+            <Head title={ data.id ? 'Business Update' : 'Business Create'} />
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">

@@ -24,9 +24,9 @@ class BusinessCreateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:255'],
-            'image' => ['nullable', 'image'],
-            'bussness_link' => ['required', 'url'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'address' => ['required', 'max:255'],
+            'bussness_link' => ['required', 'max:255', 'url'],
             'phone' => ['required', 'max:255'],
             'max_reviews' => ['required', 'max:255', 'numeric'],
             'description' => ['nullable', 'max:500'],
