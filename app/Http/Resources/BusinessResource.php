@@ -19,7 +19,7 @@ class BusinessResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'image' => $this->image && !(str_starts_with($this->image, 'http')) ? Storage::url($this->image) : $this->image,
+            'image' => $this->image && !(str_starts_with($this->image, 'http')) ? Storage::url($this->image) : '#   ',
             'description' => $this->description,
             'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
             'max_reviews' => $this->max_reviews,

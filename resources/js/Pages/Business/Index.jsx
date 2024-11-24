@@ -7,6 +7,7 @@ import Pagination from '@/Components/Pagination';
 import SelectInput from '@/Components/SelectInput';
 import { BUSINESS_STATUS_TEXT_MAP, BUSINESS_STATUS_COLOR_MAP } from '@/Lib/Constants';
 import AdminLayout from '../../Layouts/AdminLayout';
+import DeleteButton from '@/Components/DeleteButton';
 
 
 export default function Index({businesses, queryParam = {}, success= '', error = ''}) {
@@ -158,9 +159,14 @@ export default function Index({businesses, queryParam = {}, success= '', error =
                                                                 <Link href={route('businesses.edit', business.id)}>
                                                                     <PencilIcon className="w-5 h-5 text-gray-500" />
                                                                 </Link>
-                                                                <Link href={route('businesses.destroy', business.id)}>
+                                                                {/* <Link href={route('businesses.destroy', business.id)}>
                                                                     <TrashIcon className="w-5 h-5 text-gray-500" />
-                                                                </Link>
+                                                                </Link> */}
+                                                                <DeleteButton 
+                                                                    itemId={business.id} 
+                                                                    url={'businesses.destroy'} 
+                                                                    text="Are you sure you want to delete this business?" 
+                                                                />
                                                             </div>
                                                         </td>
 

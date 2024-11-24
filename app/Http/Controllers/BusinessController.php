@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Business;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Str;
@@ -75,10 +76,11 @@ class BusinessController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Business $business)
     {
         //
-        $business = Business::findOrFail($id);
+        //$business = Business::findOrFail($id);
+        $business = new BusinessResource($business);
         return Inertia::render('Business/Form', ['business' => $business]);
     }
 
@@ -99,7 +101,6 @@ class BusinessController extends Controller
             }else{
                 unset($data['image']);
             }
-            \dd($data);
             $business->update($data);
 
             return to_route('businesses.index')
@@ -114,6 +115,15 @@ class BusinessController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       try {
+            $business = Business::findOrFail($id);
+            if ($business->image) {
+                Storage::disk('public')->delete($business->image);
+            }
+            $business->delete();
+            return to_route('businesses.index')->with('success', 'Business deleted successfully');
+        } catch (\Exception $e) {
+            return Redirect::back()->with('error', $e->getMessage());
+        }
     }
 }

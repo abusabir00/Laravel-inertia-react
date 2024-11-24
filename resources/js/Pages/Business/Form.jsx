@@ -13,7 +13,7 @@ import TextAreaInput from '@/Components/TextAreaInput';
 
 
 export default function Create({Auth, business=null}) {
-
+    var business = business?.data ?? null;
     const { data, setData, post, put, errors, reset } = useForm({
         id: business ? business.id : null,
         name: business ? business.name : "",
@@ -23,11 +23,13 @@ export default function Create({Auth, business=null}) {
         phone: business ? business.phone : "",
         max_reviews: business ? business.max_reviews : "",
         description: business ? business.description : "",
+        _method: business ? "PUT" : "POST",
       });
+      console.log(data);
       const onSubmit = (e) => {
         e.preventDefault();
         console.log(data);
-        data.id ? put(route("businesses.update", data.id)) : 
+        data.id ? post(route("businesses.update", data.id)) : 
         post(route("businesses.store"));
 
       };
@@ -78,6 +80,13 @@ export default function Create({Auth, business=null}) {
                                                                     type="file"
                                                                 />
                                                                 <InputError message={errors.image} className="mt-2" />
+
+                                                                {business && business.image && (
+                                                                    <div className="p-2 mb-4">
+                                                                    <img src={business.image} className="w-64" />
+                                                                    </div>
+                                                                )}
+                                                                
                                                             </div>
                                                         </div>
 
